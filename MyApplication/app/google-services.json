@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "776536028161",
+    "firebase_url": "https://polyhack2018.firebaseio.com",
+    "project_id": "polyhack2018",
+    "storage_bucket": "polyhack2018.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776536028161:android:6959d9b08153d748",
+        "android_client_info": {
+          "package_name": "polyhack2018.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776536028161-ff9l368qkt7sisjslo1vdn63au99u200.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqyt7MNlEuhqQtnjEm1iL9KT8N3qNdr2w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
