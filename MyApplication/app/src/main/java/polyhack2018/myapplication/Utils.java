@@ -27,6 +27,7 @@ import org.apache.http.util.EntityUtils;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Map;
 
 
@@ -36,7 +37,6 @@ import java.util.Map;
 public class Utils {
 
     public static void imageUpload(Uri imagUri, String name, final boolean isForContact, String contactName, String contactPhone){
-        String path;
         UploadTask uploadTask;
 
         if (imagUri != null) {
@@ -57,8 +57,8 @@ public class Utils {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                     Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
-                    String imageURL = downloadUri.toString();
-
+                    String path = downloadUri.toString();
+                    checkForSimilarFaces(path);
                     Log.e("UPLOAD", "SUCCESS");
                 }
             });
@@ -66,7 +66,7 @@ public class Utils {
         }
     }
 
-    public JSONObject getFaceData(String imageURL){
+    public static JSONObject getFaceData(String imageURL){
         JSONObject faceData = new JSONObject();
         HttpClient httpclient = new DefaultHttpClient();
 
@@ -125,15 +125,18 @@ public class Utils {
     }
 
 
-    public void checkForSimilarFaces(String shareImageURL) {
+    public static void checkForSimilarFaces(String shareImageURL) {
+        final ArrayList<String> matchingFriends = new ArrayList<>();
         Map<String,?> keys = Constants.contacts.getAll();
         final JSONObject shareImageJSON = getFaceData(shareImageURL);
-        for(Map.Entry<String,?> entry : keys.entrySet()){
+        for(final Map.Entry<String,?> entry : keys.entrySet()){
             Constants.storageRef.child(Constants.pref.getString("USER", "") + "/Contacts" + entry.getValue().toString()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
                     JSONObject contactPerson = getFaceData(uri.toString());
-                    compareJSONs(shareImageJSON, contactPerson);
+                    if (compareJSONs(shareImageJSON, contactPerson)) {
+                        matchingFriends.add(entry.getValue().toString());
+                    }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -145,8 +148,16 @@ public class Utils {
 
     }
 
-    public void compareJSONs(JSONObject object1, JSONObject object2){
-            //COMPARE AND SEE HOW MUCH TWO JSONS SHARE SIMILARITIES
+    public static boolean compareJSONs(JSONObject object1, JSONObject object2){
+        //COMPARE AND SEE HOW MUCH TWO JSONS SHARE SIMILARITIES
+        boolean doesMatch = false;
+
+        //todo Iterate through each nested JSON Object inside object1 and compare with object2
+        //todo if one matches/is most similar to object2, change value of doesMatch to true
+
+        return doesMatch;
+
+
     }
 
 
